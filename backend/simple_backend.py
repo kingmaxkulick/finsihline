@@ -191,12 +191,6 @@ def logging_thread_function():
         # Sleep precisely for the logging interval
         time.sleep(log_interval)
 
-# Function to generate a filename with timestamp
-def generate_log_filename():
-    # Format: keymetrics-DD.MM.YYYY-HH.MM.csv
-    timestamp = datetime.now().strftime("%d.%m.%Y-%H.%M")
-    return f"keymetrics-{timestamp}.csv"
-
 # Start the CAN receiver in a separate thread
 can_thread = threading.Thread(target=receive_can_data, daemon=True)
 can_thread.start()
@@ -281,7 +275,7 @@ async def start_logging(request: LoggingRequest):
     logging_thread.start()
     is_logging = True
     
-    # Find the next log ID (needed for backwards compatibility)
+    # Find the next log ID
     current_log_id = 1
     while os.path.exists(os.path.join(log_directory, f"keymetrics-{current_log_id}.csv")):
         current_log_id += 1
@@ -323,8 +317,8 @@ async def stop_logging(background_tasks: BackgroundTasks):
         is_logging = False
         return {"status": "empty", "message": "No data logged"}
     
-    # Generate the filename with timestamp
-    filename = generate_log_filename()
+    # Generate the filename
+    filename = f"keymetrics-{current_log_id}.csv"
     filepath = os.path.join(log_directory, filename)
     
     # Schedule background task to save the file
@@ -348,23 +342,14 @@ async def stop_logging(background_tasks: BackgroundTasks):
 
 @app.get("/logging/download/{log_id}")
 async def download_log(log_id: int):
-    # For backwards compatibility, try the numeric ID first
     filepath = os.path.join(log_directory, f"keymetrics-{log_id}.csv")
-    
     if not os.path.exists(filepath):
-        # If not found, try finding the file by ID in the filename list
-        log_files = await list_logs()
-        matching_file = next((file for file in log_files if file["id"] == log_id), None)
-        
-        if matching_file:
-            filepath = os.path.join(log_directory, matching_file["filename"])
-        else:
-            raise HTTPException(status_code=404, detail=f"Log file with ID {log_id} not found")
+        raise HTTPException(status_code=404, detail=f"Log file keymetrics-{log_id}.csv not found")
     
     return FileResponse(
         filepath, 
         media_type="text/csv", 
-        filename=os.path.basename(filepath)
+        filename=f"keymetrics-{log_id}.csv"
     )
 
 @app.get("/logging/list")
@@ -373,28 +358,14 @@ async def list_logs():
     for filename in os.listdir(log_directory):
         if filename.startswith("keymetrics-") and filename.endswith(".csv"):
             filepath = os.path.join(log_directory, filename)
-            
-            # Extract ID from filename - for timestamped files, use file creation order
-            try:
-                if "-" in filename and filename.count("-") > 1:
-                    # For timestamped files, use creation time as a unique identifier
-                    file_id = int(os.path.getctime(filepath))
-                else:
-                    # For old-style files with numeric IDs
-                    file_id = int(filename.split("-")[1].split(".")[0])
-            except:
-                # Fallback to using the file creation time
-                file_id = int(os.path.getctime(filepath))
-            
             log_files.append({
                 "filename": filename,
                 "size_bytes": os.path.getsize(filepath),
                 "created": datetime.fromtimestamp(os.path.getctime(filepath)).isoformat(),
-                "id": file_id
+                "id": int(filename.split("-")[1].split(".")[0])
             })
     
-    # Sort by creation time (newest first)
-    return sorted(log_files, key=lambda x: x["created"], reverse=True)
+    return sorted(log_files, key=lambda x: x["id"])
 
 @app.get("/logging/debug")
 async def debug_logging():
@@ -457,7 +428,8 @@ def cleanup_old_logs(max_files_to_keep=5):
                 log_files.append({
                     "filename": filename,
                     "filepath": filepath,
-                    "created": os.path.getctime(filepath)
+                    "created": os.path.getctime(filepath),
+                    "id": int(filename.split("-")[1].split(".")[0])
                 })
         
         # Sort by creation time (newest first)
@@ -497,7 +469,7 @@ def shutdown_event():
         is_logging = False
         
         if log_data and len(log_data) > 0:
-            filename = generate_log_filename()
+            filename = f"keymetrics-{current_log_id}.csv"
             filepath = os.path.join(log_directory, filename)
             save_log_to_csv(log_data, filepath)
     

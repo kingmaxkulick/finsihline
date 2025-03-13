@@ -157,10 +157,10 @@ export const SIGNAL_THRESHOLDS: Record<string, ThresholdConfig> = {
   // Voltage thresholds
   [INVERTER_KEYS.DC_BUS_VOLTAGE]: { threshold: 450, isHigherBad: true },
   [INVERTER_KEYS.PACK_VOLTAGE]: { threshold: 450, isHigherBad: true },
-  [BMS_KEYS.CELL_MIN_VOLTAGE]: { threshold: 2.8, isHigherBad: false }, // Low voltage is bad
-  [BMS_KEYS.CELL_MAX_VOLTAGE]: { threshold: 4.2, isHigherBad: true },
-  [BMS_KEYS.VOLT_1]: { threshold: 480, isHigherBad: true },
-  [BMS_KEYS.VOLT_2]: { threshold: 480, isHigherBad: true },
+  [BMS_KEYS.CELL_MIN_VOLTAGE]: { threshold: 2800, isHigherBad: false }, // Low voltage is bad
+  [BMS_KEYS.CELL_MAX_VOLTAGE]: { threshold: 4200, isHigherBad: true },
+  [BMS_KEYS.VOLT_1]: { threshold: 835, isHigherBad: true },
+  [BMS_KEYS.VOLT_2]: { threshold: 835, isHigherBad: true },
   
   // Temperature thresholds (higher values are concerning)
   [BMS_KEYS.CELL_TEMP_MIN]: { threshold: -10, isHigherBad: false }, // Too cold is bad

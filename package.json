@@ -1,0 +1,93 @@
+{
+  "name": "vehicle-dashboard",
+  "version": "1.0.0",
+  "description": "Vehicle Infotainment Dashboard",
+  "main": "build.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "clean": "rimraf dist electron-dist",
+    "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5174 && run-electron.cmd .\"",
+    "electron:build": "npm run clean && npm run build && timeout /t 5 && electron-builder --dir",
+    "electron:build:nosign": "npm run clean && npm run build && electron-builder --dir --win --config.win.signAndEditExecutable=false --config.win.verifyUpdateCodeSignature=false --config.forceCodeSigning=false",
+    "electron:dist": "npm run clean && npm run build && timeout /t 5 && electron-builder",
+    "electron:debug": "electron . --inspect",
+    "start": "electron ."
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.4.5",
+    "@mui/material": "^6.4.5",
+    "@tanstack/react-query": "^5.66.9",
+    "electron-is-dev": "^3.0.1",
+    "lucide-react": "^0.475.0",
+    "papaparse": "^5.5.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "recharts": "^2.15.1"
+  },
+  "devDependencies": {
+    "@types/node": "^18.19.26",
+    "@types/papaparse": "^5.3.15",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3",
+    "electron": "^34.3.0",
+    "electron-builder": "^25.1.8",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.7.3",
+    "vite": "^5.4.14",
+    "wait-on": "^8.0.2"
+  },
+  "build": {
+    "appId": "com.yourcompany.vehicle-dashboard",
+    "productName": "Vehicle Dashboard",
+    "files": [
+      "dist/**/*",
+      "electron.js",
+      "build.js",
+      "index.js",
+      "preload.js"
+    ],
+    "directories": {
+      "buildResources": "src/assets",
+      "output": "electron-dist"
+    },
+    "extraResources": [
+      {
+        "from": "backend",
+        "to": "backend",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "src/assets",
+        "to": "assets"
+      }
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "src/assets/icon.ico",
+      "sign": false,
+      "signAndEditExecutable": false,
+      "verifyUpdateCodeSignature": false
+    },
+    "forceCodeSigning": false,
+    "removePackageScripts": true,
+    "mac": null,
+    "dmg": null,
+    "linux": null,
+    "asar": true,
+    "asarUnpack": [
+      "backend/**/*"
+    ]
+  },
+  "author": "Your Name"
+}

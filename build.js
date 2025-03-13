@@ -199,7 +199,7 @@ app.whenReady().then(async () => {
     if (process.platform !== 'darwin') {
       app.focus({ steal: true });
     }
-  }, 5000); // 5 second delay before creating window
+  }, 1000); // 1 second delay before creating window
 });
 
 // Rest of your code remains the same

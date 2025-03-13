@@ -188,9 +188,9 @@ app.whenReady().then(async () => {
   // Start the Python backend
   pythonProcess = startPythonBackend(isDev, resourcesPath);
   
-  // Wait significantly longer for vehicle systems to initialize
-  // Increased from 1000ms to 15000ms (15 seconds)
-  console.log('Waiting 15 seconds for vehicle systems to initialize...');
+  // Wait for vehicle systems to initialize
+  // Increased from 1000ms to 5000ms (5 seconds)
+  console.log('Waiting 5 seconds for vehicle systems to initialize...');
   
   setTimeout(() => {
     createWindow(isDev);
@@ -199,7 +199,7 @@ app.whenReady().then(async () => {
     if (process.platform !== 'darwin') {
       app.focus({ steal: true });
     }
-  }, 15000); // 15 second delay before creating window
+  }, 5000); // 5 second delay before creating window
 });
 
 // Rest of your code remains the same

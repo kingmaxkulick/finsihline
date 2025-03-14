@@ -29,8 +29,8 @@ app.add_middleware(
 )
 
 DBC_FILE_PATHS = [
-    r"C:\Users\Dash\Documents\single-app-final-app\backend\INV_CAN_cm.dbc",
-    r"C:\Users\Dash\Documents\single-app-final-app\backend\NX0002-STS01_A01 (2).dbc"
+    r"C:\Users\MaxKulick\Documents\finsihline-main\backend\INV_CAN_cm.dbc",
+    r"C:\Users\MaxKulick\Documents\finsihline-main\backend\NX0002-STS01_A01 (2).dbc"
 ]
 
 

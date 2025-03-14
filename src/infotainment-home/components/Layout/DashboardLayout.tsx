@@ -1,15 +1,21 @@
-// Updated src/layouts/DashboardLayout.tsx with IMD Fault Warning
+/**
+
+Main layout component for the infotainment dashboard.
+Orchestrates the entire UI including splash screen, status bar, navigation,
+app content, climate controls, and warning overlays.
+
+*/
+
 import React, { useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import StatusBar from '../TopBar/TopBar';
-import AppContainer from './AppContainer';
+import AppContainer from '../MainWindow/Content/AppContainer';
 import ClimateControl from '../NavBar/ClimateControl';
 import BottomNav from '../NavBar/BottomNav';
 import InfoSidebar from '../SideWidgets/InfoSidebar';
-import AppContentRenderer from './AppContentRenderer';
+import AppContentRenderer from '../MainWindow/Content/AppContentRenderer';
 import SplashScreen from '../SplashScreen/splash-screen';
-// Import the IMD Fault Warning component
 import IMDFaultWarning from '../IMDFaultWarning';
 import { useVehicleData } from '../../hooks/vehicle-hooks';
 import { useAppState } from '../../hooks/use-app-state';

@@ -7,7 +7,7 @@ import React, { useEffect } from 'react';
 import { Box, Stack } from '@mui/material';
 import DriverProfile from './DriverProfile/DriverProfile';
 import PackVoltageDisplay from './PackVoltage/PackVoltage';
-import TechnicalSpecs from './IsoValues/IsoValues';
+import IsoValues from './IsoValues/IsoValues';
 import { BMS_KEYS, INVERTER_KEYS } from '../../constants/can-keys';
 
 interface InfoSidebarProps {
@@ -87,7 +87,7 @@ const InfoSidebar = ({
           <PackVoltageDisplay voltage={packVoltage} />
         </Box>
         <Box onClick={() => onBoxClick('Technical')} sx={boxStyle}>
-          <TechnicalSpecs 
+          <IsoValues 
             imdResPos={isLoading || error ? 0 : vehicleData?.[BMS_KEYS.IMD_RES_POS] ?? 0}
             imdResNeg={isLoading || error ? 0 : vehicleData?.[BMS_KEYS.IMD_RES_NEG] ?? 0}
           />

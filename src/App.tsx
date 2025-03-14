@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type { ReactElement } from 'react'
-import DashboardLayout from './infotainment-home/components/MainWindow/DashboardLayout'
+import { DashboardLayout } from './infotainment-home/components/MainWindow'
 
 // Create a client
 const queryClient = new QueryClient({

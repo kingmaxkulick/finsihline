@@ -7,9 +7,9 @@ import Paper from '@mui/material/Paper'
 import Stack from '@mui/material/Stack'
 import Fade from '@mui/material/Fade'
 import { ChevronUp, ChevronDown } from 'lucide-react'
-import acIcon from '../../../assets/ac.png'
-import driverSeatIcon from '../../../assets/seat (2).png'
-import passengerSeatIcon from '../../../assets/seat (2) right.png'
+import acIcon from "../../../../assets/ac.png";
+import driverSeatIcon from "../../../../assets/seatL.png";
+import passengerSeatIcon from "../../../../assets/seatR.png";
 
 interface ClimateControlProps {
   open: boolean

@@ -1,29 +1,29 @@
 /** 
-
-AppContentRenderer Component
-
-Responsible for rendering the appropriate infotainment application view 
-based on the selected app name. This component acts as a router for 
-different app screens within the infotainment system.
-
-Props:
-- `appName` (string | null): The currently selected app name.
-- `chargingStatus` (ChargingStatus): An object containing charging-related data.
-
-Behavior:
-- Switches between different infotainment views (e.g., Navigation, Music, Climate).
-- Displays placeholder views for apps that are not yet implemented.
-- Shows a fallback message when no app is selected.
-
-Usage:
-```tsx
-<AppContentRenderer appName="Music" chargingStatus={chargingStatus} />
-
+ * AppContentRenderer Component
+ *
+ * Responsible for rendering the appropriate infotainment application view 
+ * based on the selected app name. This component acts as a router for 
+ * different app screens within the infotainment system.
+ *
+ * Props:
+ * - `appName` (string | null): The currently selected app name.
+ * - `chargingStatus` (ChargingStatus): An object containing charging-related data.
+ *
+ * Behavior:
+ * - Switches between different infotainment views (e.g., Navigation, Music, Climate).
+ * - Displays placeholder views for apps that are not yet implemented.
+ * - Shows a fallback message when no app is selected.
+ *
+ * Usage:
+ * ```tsx
+ * <AppContentRenderer appName="Music" chargingStatus={chargingStatus} />
+ * ```
  */
 
 import { Box } from '@mui/material';
 import DevApp from '../../Apps/DevApp/DevApp';
-import PlotView from '../../Apps/PlotViewApp';
+import PlotView from '../../Apps/PlotViewApp/PlotView';
+import ChargingApp from '../../Apps/ChargingApp/ChargingApp';
 
 interface ChargingStatus {
   isCharging: boolean;
@@ -48,6 +48,10 @@ const AppContentRenderer = ({ appName, chargingStatus }: AppContentRendererProps
       return <DevApp />;
     case 'Climate':
       return <Box sx={{ p: 3 }}>Climate Control View</Box>;
+    
+    // Contextual apps
+    case 'Charging':
+      return <ChargingApp />;
       
     // Secondary apps from navbar
     case 'Music':
